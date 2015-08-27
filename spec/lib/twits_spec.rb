@@ -1,11 +1,9 @@
-require 'spec_helper'
 require 'twits'
 
 describe Twits do
-	xit 'cerate twit' do
-		#put some code here
+	it 'cerate twit' do
 	end
 
-	xit 'other spec' do
+	it 'other spec' do
 	end
 end

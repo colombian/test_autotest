@@ -10,6 +10,8 @@ GEM
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
+    rspec-autotest (1.0.0)
+      rspec-core (>= 2.99.0.beta1, < 4.0.0)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -31,6 +33,7 @@ PLATFORMS
 DEPENDENCIES
   ZenTest
   rspec
+  rspec-autotest
   sinatra
 
 BUNDLED WITH
