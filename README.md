@@ -10,11 +10,11 @@ To start autotest:
 
 rigth now the vagrant is not provisioning the machine so be sure to install by yourself:
 
-    * rvm
-    * ruby 2.1.1
-    * bundler
-    * git
-    * tmux (suggestion)
-    * curl
-    * gcc 
-    * g++
+* rvm
+* ruby 2.1.1
+* bundler
+* git
+* tmux (suggestion)
+* curl
+* gcc 
+* g++
