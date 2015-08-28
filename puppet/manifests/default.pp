@@ -1,47 +1,59 @@
+$proyect_path = '/vagrant'
+$as_vagrant   = 'su - vagrant -c'
+
+exec { "apt-get update":
+    command => "/usr/bin/apt-get update",
+    onlyif => "/bin/sh -c '[ ! -f /var/cache/apt/pkgcache.bin ] || /usr/bin/find /etc/apt/* -cnewer /var/cache/apt/pkgcache.bin | /bin/grep . > /dev/null'",
+}
+
 package { 'curl':
-  ensure => installed
+  ensure => installed,
+  require  => Exec['apt-get update'],
 }
 
 package { 'build-essential':
-  ensure => installed
+  ensure => installed,
+  require  => Exec['apt-get update'],
 }
 
 package { 'git-core':
-  ensure => installed
+  ensure => installed,
+  require  => Exec['apt-get update'],
 }
 
 package { 'imagemagick':
-  ensure => installed
+  ensure => installed,
+  require  => Exec['apt-get update'],
 }
 
-package { 'libxml2':
-  ensure => installed
+# package { 'libxml2':
+#   ensure => installed,
+#   require  => Exec['apt-get update'],
+# }
+
+# package { 'libxslt-dev':
+#   ensure => installed,
+#   require  => Exec['apt-get update'],
+# }
+
+# package { 'libxml2-dev':
+#   ensure => installed,
+#   require  => Exec['apt-get update'],
+# }
+
+class { 'ruby':
+  gems_version  => 'latest'
 }
 
-package { 'libxslt-dev':
-  ensure => installed
+package { 'bundler':
+    ensure   => 'installed',
+    provider => 'gem',
+    require => Class['ruby']
 }
 
-package { 'libxml2-dev':
-  ensure => installed
-}
 
-exec { 'install_rvm':
-  command => "${as_vagrant} 'curl -L https://get.rvm.io | bash -s stable'",
-  require => Package['curl']
-}
-
-exec { 'install_ruby':
-  command => "${as_vagrant} '${source_rvm} rvm install 2.1.1'",
-  require => Exec['install_rvm']
-}
-
-exec { 'install_bundler':
-  command => "${as_vagrant} '${source_rvm} gem install bundler --no-rdoc --no-ri'",
-  require => Exec['install_ruby']
-}
-
-exec { 'bundle_install':
-  command => "${as_vagrant} 'cd ${proyect_path} && ${source_rvm} bundle install'",
-  require => Exec['install_rails'],
-}
+exec {'bundle-install':
+      command => '/usr/local/bin/bundle install',
+      cwd     => '/vagrant',
+      require => Package['bundler'],
+    }
